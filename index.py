@@ -23,17 +23,22 @@ class MainApp(QMainWindow, ui):
 
     def Handel_Buttons(self):
         self.pushButton.clicked.connect(self.Download)
+        self.pushButton_2.clicked.connect(self.Handel_Browse)
 
     def Handel_Browse(self):
-        pass
+        save_Location = QFileDialog.getSaveFileName(self, caption="Save as", directory=".", filter="All Files(*.*)")
+        self.lineEdit_2.setText(str(save_Location[0]))
 
+    #thread
     def Handel_Progress(self, blocknum, blocksize, totalsize):
+        self.thread = QThread(parent=self)
+        self.thread.start()
         read = blocknum * blocksize
 
         if totalsize  > 0:
             download_percentage = read * 100 / totalsize
             self.progressBar.setValue(int(download_percentage))
-            QApplication.processEvents()  #not responding solve
+            #QApplication.processEvents()  #not responding solve
 
     def Download(self):
         url = self.lineEdit.text()
@@ -47,7 +52,7 @@ class MainApp(QMainWindow, ui):
         QMessageBox.information(self, "Download Completed", "The download finished")
         self.progressBar.setValue(int(0))
         self.lineEdit.setText('')
-        self.pushButton_2.setText('')
+        self.lineEdit_2.setText('')
 
 
 def main():
