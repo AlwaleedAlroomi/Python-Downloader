@@ -20,8 +20,9 @@ class MainApp(QMainWindow, ui):
         self.Handel_Buttons()
 
     def Handel_UI(self):
+        self.tabWidget.tabBar().setVisible(False)
         self.setWindowTitle('Python Downloader')
-        self.setFixedSize(551,285)
+        self.setFixedSize(625,325)
 
     def Handel_Buttons(self):
         self.pushButton.clicked.connect(self.Download)
@@ -33,6 +34,15 @@ class MainApp(QMainWindow, ui):
         #Youtube playlist downloader buttons
         self.pushButton_12.clicked.connect(self.Playlist_Download)
         self.pushButton_11.clicked.connect(self.Playlist_Browse)
+        #Change screens
+        self.pushButton_3.clicked.connect(self.Files)
+        self.pushButton_4.clicked.connect(self.YT_Videos)
+        self.pushButton_7.clicked.connect(self.YT_Playlist)
+        self.pushButton_8.clicked.connect(self.Themes)
+        #Themes
+        self.pushButton_14.clicked.connect(self.Apply_Mac_OS)
+        self.pushButton_9.clicked.connect(self.Apply_Material_Dark)
+        self.pushButton_10.clicked.connect(self.Apply_Ubuntu)
 
     def Handel_Browse(self):
         save_Location = QFileDialog.getSaveFileName(self, caption="Save as", directory=".", filter="All Files(*.*)")
@@ -163,6 +173,35 @@ class MainApp(QMainWindow, ui):
             download_percentage = read * 100 / total
             self.progressBar_3.setValue(int(download_percentage))
             QApplication.processEvents()  # not responding solve
+
+    ######Change screen######
+    def Files(self):
+        self.tabWidget.setCurrentIndex(0)
+    
+    def YT_Videos(self):
+        self.tabWidget.setCurrentIndex(1)
+    
+    def YT_Playlist(self):
+        self.tabWidget.setCurrentIndex(2)
+
+    def Themes(self):
+        self.tabWidget.setCurrentIndex(3)
+############APP theme##########
+    def Apply_Mac_OS(self):
+        style = open('themes/MacOS.qss')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def Apply_Material_Dark(self):
+        style = open('themes/MaterialDark.qss')
+        style = style.read()
+        self.setStyleSheet(style)
+
+    def Apply_Ubuntu(self):
+        style = open('themes/Ubuntu.qss')
+        style = style.read()
+        self.setStyleSheet(style)
+
 
 def main():
     app = QApplication(sys.argv)
